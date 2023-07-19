@@ -22,6 +22,12 @@ in
     outputs.package = mkOption {
       type = types.package;
       description = ''
+        The final package that will run 'process-compose' for this configuration.
+      '';
+    };
+    outputs.package-up = mkOption {
+      type = types.package;
+      description = ''
         The final package that will run 'process-compose up' for this configuration.
       '';
     };
@@ -34,17 +40,25 @@ in
     };
   };
 
-  config.outputs.package =
-    pkgs.writeShellApplication {
+  config.outputs = {
+    package = pkgs.writeShellApplication {
       inherit name;
       runtimeInputs = [ config.package ];
       text = ''
         ${if config.debug then "cat ${config.outputs.settingsYaml}" else ""}
-        process-compose up \
+        exec process-compose \
+          ${if config.port != null then "-p ${toString config.port}\\\n" else ""} "$@"
+      '';
+    };
+    package-up = pkgs.writeShellApplication {
+      name = "${name}-up";
+      text = ''
+        exec ${lib.getExe config.outputs.package} up \
           -f ${config.outputs.settingsYaml} \
           ${config.outputs.upCommandArgs} \
           "$@"
       '';
     };
+  };
 }
 

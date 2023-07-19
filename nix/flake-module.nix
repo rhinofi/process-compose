@@ -24,8 +24,11 @@ in
       };
 
       config = {
-        packages = lib.mapAttrs
-          (name: cfg: cfg.outputs.package)
+        packages = lib.concatMapAttrs
+          (name: cfg: {
+            "${name}" = cfg.outputs.package;
+            "${name}-up" = cfg.outputs.package-up;
+          })
           config.process-compose;
         checks =
           let

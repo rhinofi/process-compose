@@ -20,7 +20,6 @@ in
     outputs.upCommandArgs =
       let
         cliArgsAttr = {
-          port = "-p ${toString config.port}";
           tui = "-t=${lib.boolToString config.tui}";
         };
         args =
