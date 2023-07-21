@@ -203,7 +203,7 @@ process1:
     process2:
       condition: process_completed_successfully
 process2:
-  command: "echo 'Hi from Process2'"      
+  command: "echo 'Hi from Process2'"
 process3:
   command: "echo 'Hi from Process3'"
 ```
@@ -272,9 +272,9 @@ nginx:
     signal: 15 # default 15, but only if command is not defined or empty
 ```
 
-1. For processes that start services / daemons in the background, please use the `is_daemon` flag set to `true`. 
+1. For processes that start services / daemons in the background, please use the `is_daemon` flag set to `true`.
 
-2. In case a process is daemon it will be considered running until stopped. 
+2. In case a process is daemon it will be considered running until stopped.
 
 3. Daemon processes can only be stopped with the `$PROCESSNAME.shutdown.command` as in the example above.
 
@@ -384,7 +384,7 @@ Default log location: `/tmp/process-compose-$USER.log`
 **Tip:** It is recommended to add the following process configuration to your `process-compose.yaml`:
 
 ```yaml
-processes:  
+processes:
   pc_log:
     command: "tail -f -n100 process-compose-${USER}.log"
     working_dir: "/tmp"
@@ -646,7 +646,7 @@ See the `process-compose` wiki for more information on [Multiple Compose Files](
 Assigning namespaces to processes allows better grouping and sorting, especially in TUI:
 
 ```yaml
-processes:  
+processes:
   process1:
     command: "tail -f -n100 process-compose-${USER}.log"
     working_dir: "/tmp"
@@ -717,4 +717,4 @@ https://github.com/sponsors/F1bonacc1
 <img src="./imgs/btc.wallet.qr.png" style="zoom:80%;"  alt="3QjRfBzwQASQfypATTwa6gxwUB65CX1jfX"/>
 3QjRfBzwQASQfypATTwa6gxwUB65CX1jfX
 
-Thank **You**! 
+Thank **You**!
