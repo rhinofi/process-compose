@@ -25,6 +25,7 @@ type ProjectRunner struct {
 	logger           pclog.PcLogger
 	waitGroup        sync.WaitGroup
 	exitCode         int
+	mainProcess      string
 }
 
 func (p *ProjectRunner) GetLexicographicProcessNames() ([]string, error) {
@@ -83,7 +84,19 @@ func (p *ProjectRunner) runProcess(config *types.ProcessConfig) {
 		procLog = pclog.NewLogBuffer(0)
 	}
 	procState, _ := p.GetProcessState(config.ReplicaName)
-	process := NewProcess(p.project.Environment, procLogger, config, procState, procLog, *p.project.ShellConfig)
+	isMain := config.Name == p.mainProcess
+	hasMain := p.mainProcess != ""
+	printLogs := !hasMain
+	process := NewProcess(
+		p.project.Environment,
+		procLogger,
+		config,
+		procState,
+		procLog,
+		*p.project.ShellConfig,
+		isMain,
+		printLogs,
+	)
 	p.addRunningProcess(process)
 	p.waitGroup.Add(1)
 	go func() {
@@ -560,10 +573,11 @@ func (p *ProjectRunner) GetProject() *types.Project {
 	return p.project
 }
 
-func NewProjectRunner(project *types.Project, processesToRun []string, noDeps bool) (*ProjectRunner, error) {
+func NewProjectRunner(project *types.Project, processesToRun []string, noDeps bool, mainProcess string) (*ProjectRunner, error) {
 
 	runner := &ProjectRunner{
 		project: project,
+		mainProcess: mainProcess,
 	}
 
 	var err error

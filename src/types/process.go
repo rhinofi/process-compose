@@ -16,6 +16,8 @@ type ProcessConfig struct {
 	Disabled          bool                   `yaml:"disabled,omitempty"`
 	IsDaemon          bool                   `yaml:"is_daemon,omitempty"`
 	Command           string                 `yaml:"command"`
+	Args              []string               `yaml:"args,omitempty"`
+	NoShell           bool                   `yaml:"no_shell,omitempty"`
 	LogLocation       string                 `yaml:"log_location,omitempty"`
 	Environment       Environment            `yaml:"environment,omitempty"`
 	RestartPolicy     RestartPolicyConfig    `yaml:"availability,omitempty"`

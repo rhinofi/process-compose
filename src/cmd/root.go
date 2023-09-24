@@ -34,7 +34,7 @@ func run(cmd *cobra.Command, args []string) {
 	defer func() {
 		_ = logFile.Close()
 	}()
-	runner := getProjectRunner([]string{}, false)
+	runner := getProjectRunner([]string{}, false, "")
 	api.StartHttpServer(!*pcFlags.Headless, *pcFlags.PortNum, runner)
 	runProject(runner)
 }
